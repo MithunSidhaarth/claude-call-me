@@ -12,71 +12,149 @@
   "say_captions": true,
   "sfx_density": "rich",
   "punch": true,
-  "post": { "bloom": 0.65, "halation": 0.4, "aberration": 3, "grain": 0.35, "tone": true },
-  "music": { "mood": "upbeat", "db": -10 },
-  "voice": { "provider": "local" },
+  "post": {
+    "bloom": 0.65,
+    "halation": 0.4,
+    "aberration": 3,
+    "grain": 0.35,
+    "tone": true
+  },
+  "music": {
+    "mood": "upbeat",
+    "db": -10
+  },
+  "voice": {
+    "provider": "local"
+  },
   "scenes": [
     {
       "type": "slam",
-      "words": ["YOUR", "PHONE", "RINGS."],
+      "words": [
+        "YOUR",
+        "PHONE",
+        "RINGS."
+      ],
       "invert": true,
       "size": 260,
       "hold": 0.45,
-      "camera": { "zoom": [1.0, 1.12] },
-      "say": "Your phone rings."
+      "camera": {
+        "zoom": [
+          1.0,
+          1.12
+        ]
+      },
+      "say": "Your phone rings.",
+      "dur": 3.5
     },
     {
       "type": "title",
       "style": "words",
       "underline": true,
       "kicker": "INCOMING CALL",
-      "lines": ["It's *Claude*.", "It needs one decision."],
-      "camera": { "zoom": [1.08, 1.0], "drift": 0.4 },
+      "lines": [
+        "It's *Claude*.",
+        "It needs one decision."
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.0
+        ],
+        "drift": 0.4
+      },
       "transition": "push",
-      "say": "It's Claude. It needs one decision."
+      "say": "It's Claude. It needs one decision.",
+      "dur": 3.5
     },
     {
       "type": "strike",
       "kicker": "STOP",
       "wrong": "Babysit the terminal for hours.",
       "right": "Walk away. Claude calls you.",
-      "camera": { "zoom": [1.0, 1.06], "pan": [0, 0, -20, 0] },
+      "camera": {
+        "zoom": [
+          1.0,
+          1.06
+        ],
+        "pan": [
+          0,
+          0,
+          -20,
+          0
+        ]
+      },
       "transition": "wipe",
-      "say": "Stop babysitting the terminal. Walk away. Claude calls you."
+      "say": "Stop babysitting the terminal. Walk away. Claude calls you.",
+      "dur": 3.5
     },
     {
       "type": "flow",
       "title": "When it's stuck",
-      "nodes": ["Stuck", "Calls you", "You answer", "Back to work"],
+      "nodes": [
+        "Stuck",
+        "Calls you",
+        "You answer",
+        "Back to work"
+      ],
       "loop": true,
-      "gradient": ["#07070A", "#2A0608"],
-      "camera": { "zoom": [1.1, 1.0] },
-      "say": "When it's stuck, it calls you. You answer. It gets back to work."
+      "gradient": [
+        "#07070A",
+        "#2A0608"
+      ],
+      "camera": {
+        "zoom": [
+          1.1,
+          1.0
+        ]
+      },
+      "say": "When it's stuck, it calls you. You answer. It gets back to work.",
+      "dur": 3.5
     },
     {
       "type": "code",
       "title": "LIVE CALL",
       "cps": 55,
-      "highlight": [2],
+      "highlight": [
+        2
+      ],
       "lines": [
         "agent:  Postgres or SQLite for the cache?",
         "you:    SQLite. Keep it simple.",
         "agent:  SQLite, confirmed. Back to work."
       ],
-      "camera": { "zoom": [1.0, 1.1], "drift": 0.3 },
+      "camera": {
+        "zoom": [
+          1.0,
+          1.1
+        ],
+        "drift": 0.3
+      },
       "transition": "push",
-      "say": "A voice agent asks, confirms your answer, and hangs up."
+      "say": "A voice agent asks, confirms your answer, and hangs up.",
+      "dur": 3.5
     },
     {
       "type": "timeline",
       "title": "Every time a task ends",
       "events": [
-        { "when": "Task done", "what": "It calls with an update" },
-        { "when": "You pick", "what": "The next step, by voice" },
-        { "when": "Live", "what": "Claude does it, then calls again" }
+        {
+          "when": "Task done",
+          "what": "Update call"
+        },
+        {
+          "when": "You pick",
+          "what": "Next step, by voice"
+        },
+        {
+          "when": "Live",
+          "what": "Done, calls again"
+        }
       ],
-      "camera": { "zoom": [1.06, 1.0], "pan": [20, 0, 0, 0] },
-      "say": "When a task finishes, it calls with an update and next steps. You pick one, and it does it, live."
+      "camera": {
+        "drift": 0.3
+      },
+      "say": "When a task finishes, it calls with an update and next steps. You pick one, and it does it, live.",
+      "dur": 3.5
     },
     {
       "type": "stat",
@@ -86,12 +164,20 @@
       "suffix": " AM",
       "size": 300,
       "when": "nine",
-      "caption": "A standup call about yesterday",
       "source": "install.ps1 -Standup 09:00 (configurable)",
-      "gradient": ["#2A0608", "#07070A"],
-      "camera": { "zoom": [1.0, 1.15] },
+      "gradient": [
+        "#2A0608",
+        "#07070A"
+      ],
+      "camera": {
+        "zoom": [
+          1.0,
+          1.15
+        ]
+      },
       "transition": "zoom",
-      "say": "Every morning at nine: a standup call about yesterday, and what's next."
+      "say": "Every morning at nine: a standup call about yesterday, and what's next.",
+      "dur": 3.5
     },
     {
       "type": "note",
@@ -99,25 +185,130 @@
       "kicker": "YOUR KEYS STAY YOURS",
       "text": "Keys live in env vars. Never in chat.",
       "small": "Calls run on your own Bolna account.",
-      "camera": { "zoom": [1.1, 1.0] },
+      "camera": {
+        "zoom": [
+          1.1,
+          1.0
+        ]
+      },
       "transition": "wipe",
-      "say": "Your keys never touch the chat."
+      "say": "Your keys never touch the chat.",
+      "dur": 3.5
     },
     {
       "type": "slam",
-      "words": ["CALL", "ME."],
+      "words": [
+        "CALL",
+        "ME."
+      ],
       "size": 320,
       "hold": 0.4,
-      "camera": { "zoom": [1.0, 1.2] },
+      "camera": {
+        "zoom": [
+          1.0,
+          1.2
+        ]
+      },
       "transition": "cut",
-      "say": "Call me."
+      "say": "Call me.",
+      "dur": 3.5
     },
     {
       "type": "endcard",
       "button": "Get it on GitHub",
-      "ask": "Free. Open source. Works in Claude Code.",
-      "camera": { "zoom": [1.05, 1.0] },
-      "say": "claude call me. Free and open source."
+      "camera": {
+        "zoom": [
+          1.05,
+          1.0
+        ]
+      },
+      "say": "claude call me. Free and open source.",
+      "dur": 3.5
+    }
+  ],
+  "voiceover": "assets/vo.wav",
+  "align": true,
+  "autotime": true,
+  "cues": [
+    {
+      "t": 0.0,
+      "sound": "chime"
+    },
+    {
+      "t": 0.09,
+      "sound": "tick"
+    },
+    {
+      "t": 0.18,
+      "sound": "chime"
+    },
+    {
+      "t": 0.27,
+      "sound": "tick"
+    },
+    {
+      "t": 0.36,
+      "sound": "chime"
+    },
+    {
+      "t": 0.45,
+      "sound": "tick"
+    },
+    {
+      "t": 0.75,
+      "sound": "chime"
+    },
+    {
+      "t": 0.84,
+      "sound": "tick"
+    },
+    {
+      "t": 0.93,
+      "sound": "chime"
+    },
+    {
+      "t": 1.02,
+      "sound": "tick"
+    },
+    {
+      "t": 1.11,
+      "sound": "chime"
+    },
+    {
+      "t": 1.2,
+      "sound": "tick"
+    },
+    {
+      "t": 1.5,
+      "sound": "chime"
+    },
+    {
+      "t": 1.59,
+      "sound": "tick"
+    },
+    {
+      "t": 1.68,
+      "sound": "chime"
+    },
+    {
+      "t": 1.77,
+      "sound": "tick"
+    },
+    {
+      "t": 1.86,
+      "sound": "chime"
+    },
+    {
+      "t": 1.95,
+      "sound": "tick"
+    },
+    {
+      "t": 36.4,
+      "sound": "riser"
+    },
+    {
+      "t": 37.3,
+      "sound": "success"
     }
   ]
 }
