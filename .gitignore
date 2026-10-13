@@ -2,3 +2,4 @@
 video/*.wav
 video/*.mp3
 *.bak
+video/assets/voice_*
