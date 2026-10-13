@@ -13,8 +13,8 @@
   "sfx_density": "rich",
   "punch": true,
   "post": {
-    "bloom": 0.65,
-    "halation": 0.4,
+    "bloom": 0.7,
+    "halation": 0.45,
     "aberration": 3,
     "grain": 0.35,
     "tone": true
@@ -24,7 +24,10 @@
     "db": -10
   },
   "voice": {
-    "provider": "local"
+    "provider": "elevenlabs",
+    "voice_id": "TBD",
+    "model": "eleven_multilingual_v2",
+    "gap": 0.22
   },
   "scenes": [
     {
@@ -35,34 +38,34 @@
         "RINGS."
       ],
       "invert": true,
-      "size": 260,
-      "hold": 0.45,
+      "size": 280,
+      "hold": 0.4,
       "camera": {
         "zoom": [
           1.0,
-          1.12
+          1.15
         ]
       },
       "say": "Your phone rings.",
       "dur": 3.5
     },
     {
-      "type": "title",
-      "style": "words",
-      "underline": true,
-      "kicker": "INCOMING CALL",
-      "lines": [
-        "It's *Claude*.",
-        "It needs one decision."
+      "type": "device",
+      "kind": "phone",
+      "src": "assets/incoming-call.png",
+      "zoom": 1.15,
+      "pan": [
+        0.5,
+        0.25,
+        0.5,
+        0.55
       ],
-      "camera": {
-        "zoom": [
-          1.08,
-          1.0
-        ],
-        "drift": 0.4
-      },
-      "transition": "push",
+      "backdrop": "orbs",
+      "gradient": [
+        "#2A0608",
+        "#07070A"
+      ],
+      "transition": "zoom",
       "say": "It's Claude. It needs one decision.",
       "dur": 3.5
     },
@@ -74,13 +77,7 @@
       "camera": {
         "zoom": [
           1.0,
-          1.06
-        ],
-        "pan": [
-          0,
-          0,
-          -20,
-          0
+          1.08
         ]
       },
       "transition": "wipe",
@@ -97,13 +94,14 @@
         "Back to work"
       ],
       "loop": true,
+      "backdrop": "dots",
       "gradient": [
         "#07070A",
         "#2A0608"
       ],
       "camera": {
         "zoom": [
-          1.1,
+          1.12,
           1.0
         ]
       },
@@ -113,7 +111,7 @@
     {
       "type": "code",
       "title": "LIVE CALL",
-      "cps": 55,
+      "cps": 60,
       "highlight": [
         2
       ],
@@ -125,13 +123,47 @@
       "camera": {
         "zoom": [
           1.0,
-          1.1
+          1.12
         ],
         "drift": 0.3
       },
       "transition": "push",
-      "say": "A voice agent asks, confirms your answer, and hangs up.",
+      "say": "A real voice agent asks, confirms your answer, and hangs up.",
       "dur": 3.5
+    },
+    {
+      "type": "compare",
+      "title": "Your afternoon",
+      "left": {
+        "title": "Without it",
+        "items": [
+          "Check the terminal",
+          "Claude waits on you",
+          "Come back to a question"
+        ]
+      },
+      "right": {
+        "title": "With call-me",
+        "items": [
+          "Phone rings",
+          "Answer in a minute",
+          "Come back to finished work"
+        ]
+      },
+      "backdrop": "grid",
+      "camera": {
+        "zoom": [
+          1.05,
+          1.0
+        ]
+      },
+      "transition": "wipe",
+      "say": "Without it, Claude waits on you. With it, you come back to finished work.",
+      "dur": 3.5,
+      "gradient": [
+        "#07070A",
+        "#2A0608"
+      ]
     },
     {
       "type": "timeline",
@@ -153,7 +185,8 @@
       "camera": {
         "drift": 0.3
       },
-      "say": "When a task finishes, it calls with an update and next steps. You pick one, and it does it, live.",
+      "transition": "push",
+      "say": "When a task ends, it calls with next steps. You pick one, and it does it, live.",
       "dur": 3.5
     },
     {
@@ -162,9 +195,10 @@
       "title": "EVERY MORNING",
       "value": 9,
       "suffix": " AM",
-      "size": 300,
+      "size": 320,
       "when": "nine",
       "source": "install.ps1 -Standup 09:00 (configurable)",
+      "backdrop": "orbs",
       "gradient": [
         "#2A0608",
         "#07070A"
@@ -172,11 +206,11 @@
       "camera": {
         "zoom": [
           1.0,
-          1.15
+          1.18
         ]
       },
       "transition": "zoom",
-      "say": "Every morning at nine: a standup call about yesterday, and what's next.",
+      "say": "And every morning at nine, a standup call about yesterday.",
       "dur": 3.5
     },
     {
@@ -201,12 +235,12 @@
         "CALL",
         "ME."
       ],
-      "size": 320,
-      "hold": 0.4,
+      "size": 340,
+      "hold": 0.38,
       "camera": {
         "zoom": [
           1.0,
-          1.2
+          1.25
         ]
       },
       "transition": "cut",
@@ -218,97 +252,13 @@
       "button": "Get it on GitHub",
       "camera": {
         "zoom": [
-          1.05,
+          1.06,
           1.0
         ]
       },
-      "say": "claude call me. Free and open source.",
+      "backdrop": "orbs",
+      "say": "Claude call me. Free and open source.",
       "dur": 3.5
-    }
-  ],
-  "voiceover": "assets/vo.wav",
-  "align": true,
-  "autotime": true,
-  "cues": [
-    {
-      "t": 0.0,
-      "sound": "chime"
-    },
-    {
-      "t": 0.09,
-      "sound": "tick"
-    },
-    {
-      "t": 0.18,
-      "sound": "chime"
-    },
-    {
-      "t": 0.27,
-      "sound": "tick"
-    },
-    {
-      "t": 0.36,
-      "sound": "chime"
-    },
-    {
-      "t": 0.45,
-      "sound": "tick"
-    },
-    {
-      "t": 0.75,
-      "sound": "chime"
-    },
-    {
-      "t": 0.84,
-      "sound": "tick"
-    },
-    {
-      "t": 0.93,
-      "sound": "chime"
-    },
-    {
-      "t": 1.02,
-      "sound": "tick"
-    },
-    {
-      "t": 1.11,
-      "sound": "chime"
-    },
-    {
-      "t": 1.2,
-      "sound": "tick"
-    },
-    {
-      "t": 1.5,
-      "sound": "chime"
-    },
-    {
-      "t": 1.59,
-      "sound": "tick"
-    },
-    {
-      "t": 1.68,
-      "sound": "chime"
-    },
-    {
-      "t": 1.77,
-      "sound": "tick"
-    },
-    {
-      "t": 1.86,
-      "sound": "chime"
-    },
-    {
-      "t": 1.95,
-      "sound": "tick"
-    },
-    {
-      "t": 36.4,
-      "sound": "riser"
-    },
-    {
-      "t": 37.3,
-      "sound": "success"
     }
   ]
 }
