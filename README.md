@@ -13,7 +13,7 @@ A Claude Code skill that **phones you** when it needs a decision, **calls with a
 
 <a href="assets/promo.mp4"><img src="assets/promo.gif" alt="claude-call-me promo: your phone rings, it's Claude" width="100%"></a>
 
-<sub>▶ Click for the full video with sound · made with <a href="https://github.com/MithunSidhaarth/motionspec">motionspec</a>, from <a href="video/spec.json">one JSON file</a></sub>
+<sub>▶ Click for the full video with sound · <a href="assets/promo-reels.mp4">vertical cut for Reels / Shorts</a> · rendered from code, see <a href="film/">film/</a></sub>
 
 </div>
 
@@ -100,7 +100,8 @@ skill/call.ps1        place a call, wait, return the transcript
 skill/stop-hook.ps1   Claude Code Stop hook for session-end calls
 skill/standup.ps1     daily standup call
 install.ps1           installer (skill, keys, hook, schedule)
-video/                the promo: script, motionspec spec and theme
+film/                 the promo film: plates, renderer, voiceover, music, Reels cut
+video/                the earlier motionspec promo (v2 spec, not rendered)
 ```
 
 ## License
