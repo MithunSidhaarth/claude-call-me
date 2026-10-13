@@ -1,0 +1,14 @@
+{
+  "extends": "midnight",
+  "brand": "claude-call-me",
+  "tagline": "Walk away. Claude calls you.",
+  "url": "github.com/MithunSidhaarth/claude-call-me",
+  "bg": "#07070A",
+  "fg": "#F5F3EE",
+  "muted": "#A5A3AD",
+  "card": "#15141B",
+  "accent": "#FF2E2E",
+  "accent_text": "#07070A",
+  "grain": 0.5,
+  "vignette": 0.6
+}
