@@ -45,7 +45,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     ev = [
         f"Dialogue: 0,{ts(0)},{ts(dur)},Kicker,,0,0,0,,CLAUDE CODE SKILL",
         f"Dialogue: 0,{ts(0)},{ts(dur)},Title,,0,0,0,,{{\\fad(250,0)}}claude-call-me",
-        f"Dialogue: 0,{ts(0)},{ts(dur)},Foot,,0,0,0,,github.com/MithunSidhaarth/claude-call-me",
+        f"Dialogue: 0,{ts(0)},{ts(dur)},Foot,,0,0,0,,MADE BY MITHUN SIDHAARTH\\Ngithub.com/MithunSidhaarth/claude-call-me",
     ]
     for i, l in enumerate(lines):
         t0 = l["start"] - 0.08
