@@ -2,7 +2,7 @@
 
 A handoff for the next Claude Code session (or a human). Read this first, then continue from **Next steps**.
 
-_Last updated: 2026-10-13._
+_Last updated: 2026-10-13 (v3 film shipped)._
 
 ## What exists
 
@@ -12,19 +12,20 @@ _Last updated: 2026-10-13._
 | Session-end calls | `skill/stop-hook.ps1`, registered in `~/.claude/settings.json` | Installed and logic-tested on fake transcripts; not yet exercised in a real session. |
 | Daily standup | `skill/standup.ps1` | Built, dry-run tested on fake transcripts. **Not scheduled yet**: the user must run `.\install.ps1 -Standup 09:00` (Claude's auto mode blocks creating scheduled tasks). |
 | Installer | `install.ps1` | Copies the skill, prompts for the Bolna key at a hidden prompt, registers the hook, optional standup schedule. |
-| Promo v1 (shipped) | `assets/promo.mp4`, `assets/promo.gif` | motionspec render with the Windows SAPI voice. In the README and the portfolio card. |
+| Promo v1 | (replaced) | motionspec render with the Windows SAPI voice. Still the portfolio card's hover clip until that is updated. |
 | Promo v2, motionspec | `video/` (spec, theme, `assets/incoming-call.png`, `assets/logo.png`) | Spec upgraded (phone device scene, compare scene, varied backdrops). Not rendered: superseded by the film below. |
-| **Promo v3, the film** | `film/` | **In progress.** Motion-as-Code kit (three.js, pdoom-video engine, MIT, see `film/LICENSE.pdoom-engine`), red palette, nine new plates. Uses a placeholder voice. |
+| **Promo v3, the film (shipped)** | `film/` → `assets/promo.mp4`, `assets/promo-reels.mp4`, `assets/promo.gif` | Motion-as-Code kit (three.js, pdoom-video engine, MIT, see `film/LICENSE.pdoom-engine`), red palette, nine plates. ElevenLabs "Alpha" voice, synthesised music (`film/analysis/music_bed.py`), 9:16 Reels cut (`film/analysis/reels.py`). In the README. |
 | Portfolio card | `W:\MITHUN 2.0\Portfolio\repo` (mithunsidhaarth.in) | "Claude Call Me" entry + 0.7 MB hover clip of promo v1. |
 
 ## The film (`film/`)
 
 - Plates in `film/app/src/scenes/`: `ring`, `terminal`, `loop`, `livecall`, `afternoon`, `steps`, `standup`, `keys`, `callme`. Shared toolkit: `_cm.ts` (base `Plate`, slams, rings, brackets, waveform, tickers) on top of the kit's `_vo.ts`.
 - `film/app/src/timeline.ts` cuts on script lines, so a new voiceover re-times everything once re-aligned.
-- Script: `SCRIPT` in `film/analysis/align_vo.py` (18 lines). Same text as the ElevenLabs take.
+- Script: `SCRIPT` in `film/analysis/align_vo.py` (18 lines). Same text as the ElevenLabs take (flow https://elevenlabs.io/app/flows/IcYOpcPXczggYgFaKRIy, take B used).
+- ElevenLabs takes CAN be downloaded: the run status returns a signed `content_url` (valid 2 h). The restricted connector has no music generation, hence the synthesised music.
 - Palette (`film/app/src/engine/palette.ts`): signal `#FF2E2E`, ember `#FF8270`, blood `#A8101A`, acid repurposed as electric blue `#2F45FF` for full-frame flips.
 - Style target: the reel the user shared (motionloved, "5.5 is ridiculous at motion"): a new look every second, kinetic type, HUD, data, colour flips.
-- Last contact-sheet review fixed: flash wash-outs, loop label overlaps, ENDED width, form plate zoom/header overlap, standup/keys framing. **Re-render a sheet to confirm** before the full render.
+- Rendered 2026-10-13 at 1080p60, `--samples 4`, on Linux Chromium (`BROWSER_PATH`, SwiftShader, ~1 s/frame). Masters were delivered in the project files (`v3-film/`).
 
 ### Tools on this machine (not in the repo)
 
@@ -44,14 +45,14 @@ Re-align after swapping `film/audio/voiceover.mp3` (from `film/`): `python analy
 
 ## Next steps
 
-1. **Voice + music (waiting on the user).** ElevenLabs flow: https://elevenlabs.io/app/flows/uXLl3A0zNsJGDyWLXM8a holds 3 takes of the "Alpha" voice (eleven_v4) reading the script, and 2 music beds (eleven_music_v2_5). The connector cannot export files: the user downloads their picks. Then: copy the voice to `film/audio/voiceover.mp3`, re-align, re-check the sheet.
-2. **Vox-style AI inserts.** The user asked to use both kits. Plan: 2–3 short cinematic clips (phone lighting up beside a laptop at night; someone walking away from their desk) generated via the ElevenLabs connector's video models, cut in as ~1 s inserts over the film with ffmpeg (`overlay=enable='between(t,a,b)'`). Prompts follow `Vox Animations/.claude/skills/vox-animation/references/vox-prompts.md` (in `D:\Vox Animations.zip`).
-3. **Mix and render.** Music bed under the voice (duck ~8 dB), then the full render. Export: 1080p for the repo (`assets/promo.mp4`, target < 10 MB), a 9 s GIF for the README (`assets/promo.gif`, < 4 MB), a muted 960 px clip for the portfolio hover (`Portfolio/repo/assets/claude/claude-call-me.mp4`).
-4. **Ship.** Update `video/SCRIPT.md` → point at `film/`, push the repo, push the portfolio after the user reviews it, phone the user (call-me skill) when done.
-5. **Cleanup.** Delete `W:\MITHUN 2.0\claude-call-me-film` (only stale `node_modules` left after the move into `film/`).
+1. **Portfolio.** The muted 960 px hover clip is made (project files: `v3-film/portfolio-hover-claude-call-me.mp4`); copy it to `Portfolio/repo/assets/claude/claude-call-me.mp4`; push the portfolio after the user reviews it.
+2. **Vox-style AI inserts (optional).** 2–3 short cinematic clips cut in as ~1 s inserts. Needs a video generator: the restricted ElevenLabs connector has none (the full connector at https://api.elevenlabs.io/v1/mcp does).
+3. **Music (optional).** Swap the synthesised track for an ElevenLabs music bed if the full connector is added; `music_bed.py`'s mix stage can take any bed.
+4. **Cleanup.** Delete `W:\MITHUN 2.0\claude-call-me-film` (only stale `node_modules` left after the move into `film/`).
 
 ## Decisions so far
 
 - Provider: Bolna (Bland needs a paid purchase before calling India). Keys only in user env vars, never in chat or files.
 - Repo name stays `claude-call-me`. MIT for code; `NOTICE` keeps the name/branding/video as the author's.
 - The user reviews the portfolio before it goes live, unless they say to push.
+- Credits read "Mithun Sidhaarth".

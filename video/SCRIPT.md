@@ -1,3 +1,5 @@
+> **Superseded.** The shipped promo is now the film in [`../film/`](../film/) (same script, rendered from code with the Motion-as-Code kit). This page is the brief for the earlier motionspec version.
+
 # "Your phone rings." The claude-call-me promo
 
 **Brief.** Product: claude-call-me, a Claude Code skill that phones you. Audience: developers who run long Claude Code tasks. The one claim: *walk away, Claude calls you when it needs you.* The one action: get it on GitHub.
