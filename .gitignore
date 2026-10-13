@@ -1,0 +1,4 @@
+﻿video/out/
+video/*.wav
+video/*.mp3
+*.bak
