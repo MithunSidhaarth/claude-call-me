@@ -68,14 +68,16 @@ flowchart LR
 ```powershell
 git clone https://github.com/MithunSidhaarth/claude-call-me
 cd claude-call-me
-.\install.ps1 -Standup 09:00
+.\install.ps1
 ```
 
-The installer:
-1. copies the skill to `~/.claude/skills/call-me/`,
-2. asks for your Bolna API key at a **hidden prompt** and your phone number, storing both as user environment variables,
+The installer copies the skill to `~/.claude/skills/call-me/` and starts a **guided setup** that walks you through everything:
+1. opens the Bolna dashboard so you can create an API key, then takes it at a **hidden prompt**,
+2. asks for your phone number (with a reminder to verify it on trial accounts); both are stored as user environment variables,
 3. registers the session-end `Stop` hook in `~/.claude/settings.json` (backup kept as `settings.json.bak`; skip with `-NoHook`),
-4. schedules the daily standup with Task Scheduler (drop `-Standup` to skip).
+4. asks what time you want the daily standup call and schedules it with Task Scheduler (press Enter to skip).
+
+Copied the skill folder some other way? Just say "call me" in Claude Code. On first use Claude introduces the skill and opens the same guided setup for you.
 
 Then in Claude Code:
 
@@ -105,7 +107,8 @@ skill/SKILL.md        when and how Claude calls, session-end loop, standup
 skill/call.ps1        place a call, wait, return the transcript
 skill/stop-hook.ps1   Claude Code Stop hook for session-end calls
 skill/standup.ps1     daily standup call
-install.ps1           installer (skill, keys, hook, schedule)
+skill/setup.ps1       guided setup: intro, credits, Bolna key, phone, hook, standup
+install.ps1           installer: copies the skill, then runs setup.ps1
 film/                 the promo film: plates, renderer, voiceover, music, Reels cut
 video/                the earlier motionspec promo (v2 spec, not rendered)
 ```
