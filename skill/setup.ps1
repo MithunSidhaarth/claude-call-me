@@ -15,7 +15,7 @@ Write-Host ''
 Write-Host '  claude-call-me' -ForegroundColor Red
 Write-Host '  Walk away. Claude calls you.'
 Write-Host ''
-Write-Host '  Meet Juno, the voice on the line. Juno phones you when Claude needs a decision,'
+Write-Host '  Meet Ivy, the voice on the line. Ivy phones you when Claude needs a decision,'
 Write-Host '  calls with an update when a task ends, and runs a daily standup call about'
 Write-Host "  yesterday's work. You answer out loud; Claude gets back to work."
 Write-Host ''
@@ -40,14 +40,14 @@ else {
 Step 2 'Your phone number'
 if (Has 'CALL_ME_PHONE') { Write-Host '  Already set. Skipping.' }
 else {
-  Write-Host '  Juno calls this number. Use international format: + then country code, no spaces.'
+  Write-Host '  Ivy calls this number. Use international format: + then country code, no spaces.'
   do { $p = (Read-Host '  Phone number (e.g. +919876543210)') -replace '[\s-]', '' } until ($p -match '^\+\d{8,15}$')
   [Environment]::SetEnvironmentVariable('CALL_ME_PHONE', $p, 'User')
   Write-Host '  Saved.' -ForegroundColor Green
   Write-Host '  On a Bolna trial account, also verify this number in the Bolna dashboard,'
   Write-Host '  or calls to it will be refused.'
 }
-# Forget any cached Bolna agent so the next call creates Juno with the current greeting
+# Forget any cached Bolna agent so the next call creates Ivy with the current greeting
 [Environment]::SetEnvironmentVariable('BOLNA_AGENT_ID', $null, 'User')
 
 Step 3 'Call when a task ends'
