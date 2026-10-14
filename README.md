@@ -119,4 +119,4 @@ The code is **MIT** ([LICENSE](LICENSE)): use it, fork it, ship it. The name, br
 
 Not affiliated with or endorsed by Anthropic or Bolna.
 
-<div align="center"><sub>Built by <a href="https://mithunsidhaarth.in">Mithun Sidhaarth</a>, with Claude.</sub></div>
+<div align="center"><sub>Built by <a href="https://mithunsidhaarth.in">Mithun Sidhaarth</a>.</sub></div>
