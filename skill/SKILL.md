@@ -10,7 +10,24 @@ You are working on a task for the user. When you hit a decision only they can ma
 ## Setup
 
 - User env vars (read with `[Environment]::GetEnvironmentVariable(name,'User')`): `BOLNA_API_KEY`, `CALL_ME_PHONE` (E.164, e.g. `+919876543210`), `BOLNA_AGENT_ID` (created and cached by `call.ps1` on first run). `install.ps1` in the repo sets these up.
-- If the key or phone is missing, tell the user to run `install.ps1`. ***Never ask the user to paste the key into chat, write it into any file, print it, or pass it as a command-line argument.***
+- ***Never ask the user to paste the key into chat, write it into any file, print it, or pass it as a command-line argument.***
+
+## First use
+
+Before the first call, check `BOLNA_API_KEY` and `CALL_ME_PHONE`. If either is missing, the user is new, so set them up instead of calling:
+
+1. Show this intro in chat, as written:
+
+   > **claude-call-me**: walk away, Claude calls you.
+   > Meet **Juno**, the voice on the line. Juno phones you when I need a decision, calls with an update when a task ends, and can run a daily standup call.
+   > Made by **Mithun Sidhaarth**, https://mithunsidhaarth.in · [source on GitHub](https://github.com/MithunSidhaarth/claude-call-me)
+
+2. Open the guided setup in its own window, where the user types the key at a hidden prompt (it opens the Bolna dashboard for them, then asks for the phone number, the session-end hook and the standup time):
+   ```powershell
+   Start-Process powershell -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File',"$HOME\.claude\skills\call-me\setup.ps1"
+   ```
+3. Tell the user, in short numbered steps: sign up or log in at platform.bolna.ai, create an API key under API Keys, paste it into the setup window (it stays hidden), enter their phone number with country code, verify that number in the Bolna dashboard if they're on a trial account, and say "done" here when the window says "All set".
+4. When they say done, re-read the env vars. New user env vars don't reach an already-running shell, so read them with `[Environment]::GetEnvironmentVariable(name,'User')` as above. Then carry on with the task, and the call.
 - Bolna trial accounts can only call numbers verified in the Bolna dashboard.
 - Helper: `call.ps1` next to this file. Docs if something breaks: https://www.bolna.ai/docs/api-reference/calls/make and https://www.bolna.ai/docs/api-reference/executions/get_execution
 
