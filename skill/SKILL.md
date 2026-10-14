@@ -5,12 +5,29 @@ description: Phone the user through Bolna.ai when you are blocked on a decision 
 
 # Call me
 
-You are working on a task for the user. When you hit a decision only they can make, you **phone them**: a Bolna.ai voice agent asks your question, confirms their answer back, and hangs up. You read the transcript and keep working.
+You are working on a task for the user. When you hit a decision only they can make, you **phone them**: **Juno**, a Bolna.ai voice agent, asks your question, confirms their answer back, and hangs up. You read the transcript and keep working.
 
 ## Setup
 
 - User env vars (read with `[Environment]::GetEnvironmentVariable(name,'User')`): `BOLNA_API_KEY`, `CALL_ME_PHONE` (E.164, e.g. `+919876543210`), `BOLNA_AGENT_ID` (created and cached by `call.ps1` on first run). `install.ps1` in the repo sets these up.
-- If the key or phone is missing, tell the user to run `install.ps1`. ***Never ask the user to paste the key into chat, write it into any file, print it, or pass it as a command-line argument.***
+- ***Never ask the user to paste the key into chat, write it into any file, print it, or pass it as a command-line argument.***
+
+## First use
+
+Before the first call, check `BOLNA_API_KEY` and `CALL_ME_PHONE`. If either is missing, the user is new, so set them up instead of calling:
+
+1. Show this intro in chat, as written:
+
+   > **claude-call-me**: walk away, Claude calls you.
+   > Meet **Juno**, the voice on the line. Juno phones you when I need a decision, calls with an update when a task ends, and can run a daily standup call.
+   > Made by **Mithun Sidhaarth**, https://mithunsidhaarth.in · [source on GitHub](https://github.com/MithunSidhaarth/claude-call-me)
+
+2. Open the guided setup in its own window, where the user types the key at a hidden prompt (it opens the Bolna dashboard for them, then asks for the phone number, the session-end hook and the standup time):
+   ```powershell
+   Start-Process powershell -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File',"$HOME\.claude\skills\call-me\setup.ps1"
+   ```
+3. Tell the user, in short numbered steps: sign up or log in at platform.bolna.ai, create an API key under API Keys, paste it into the setup window (it stays hidden), enter their phone number with country code, verify that number in the Bolna dashboard if they're on a trial account, and say "done" here when the window says "All set".
+4. When they say done, re-read the env vars. New user env vars don't reach an already-running shell, so read them with `[Environment]::GetEnvironmentVariable(name,'User')` as above. Then carry on with the task, and the call.
 - Bolna trial accounts can only call numbers verified in the Bolna dashboard.
 - Helper: `call.ps1` next to this file. Docs if something breaks: https://www.bolna.ai/docs/api-reference/calls/make and https://www.bolna.ai/docs/api-reference/executions/get_execution
 
@@ -30,10 +47,10 @@ You are working on a task for the user. When you hit a decision only they can ma
 Run with a 600000 ms tool timeout (the script polls up to 540 s). It prints `execution_id`, then JSON with `status`, `voicemail`, `error`, `transcript`.
 
 Write the task text (it becomes the voice agent's system prompt) so the question works out loud. Include:
-- Who's calling: an assistant calling on behalf of the user's AI agent, which needs one decision to keep going.
+- Why Juno is calling: the agent needs one decision to keep going. (`call.ps1` already gives the voice agent its name, Juno, and its personality; don't restate them.)
 - **The question**, short and plain, plus the options if there are any.
 - Background to share only if they ask.
-- The rules: talk fast and tight, short sentences, no small talk; ask one follow-up if the answer is vague; repeat the decision back in one sentence and confirm it; if they can't talk or say "you decide," say the agent will use its best judgment and end the call; never decide for them, promise anything, or discuss other topics; after they confirm, ask "Anything else before I let you go?" and only end once they say that's all (if they say "wait" or "hold on", stop and listen). If a call-screening assistant asks for your name and reason for calling, say only "Claude agent, one quick question" and wait for the user to pick up. If it reaches voicemail, leave a one-line version of the question and say to check the agent.
+- The rules: talk fast and tight, short sentences, no small talk; ask one follow-up if the answer is vague; repeat the decision back in one sentence and confirm it; if they can't talk or say "you decide," say the agent will use its best judgment and end the call; never decide for them, promise anything, or discuss other topics; after they confirm, ask "Anything else before I let you go?" and only end once they say that's all (if they say "wait" or "hold on", stop and listen). If a call-screening assistant asks for your name and reason for calling, say only "Juno, for your Claude agent, one quick question" and wait for the user to pick up. If it reaches voicemail, leave a one-line version of the question and say to check the agent.
 
 ## Read the answer
 
@@ -50,7 +67,7 @@ Write the task text (it becomes the voice agent's system prompt) so the question
 
 Invoking this skill in a session turns these on: a Stop hook (`stop-hook.ps1`) blocks Claude's first stop and asks for this call.
 
-1. Phone the user with `call.ps1`. The task text tells the voice agent to:
+1. Phone the user with `call.ps1`. The task text tells Juno to:
    - give a short spoken update: what got done, what failed or is left (2-3 sentences, no code or file paths read aloud);
    - offer the possible next steps as 2-4 short numbered options;
    - ask which one, plus any extra instructions;

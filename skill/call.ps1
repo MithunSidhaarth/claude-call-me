@@ -1,6 +1,8 @@
 # Usage: call.ps1 -Task "<agent instructions incl. the question>" [-TimeoutSec 540]
 # Phones CALL_ME_PHONE via Bolna, polls until the call ends, prints status + transcript as JSON.
 # First run creates a reusable Bolna agent and caches its id in the BOLNA_AGENT_ID user env var.
+# The agent is Juno: $persona below is prepended to every task, so the name and personality
+# apply even to agents created by older versions.
 param(
   [Parameter(Mandatory)][string]$Task,
   [int]$TimeoutSec = 540
@@ -10,14 +12,19 @@ $key   = [Environment]::GetEnvironmentVariable('BOLNA_API_KEY','User')
 $phone = [Environment]::GetEnvironmentVariable('CALL_ME_PHONE','User')
 if (-not $key -or -not $phone) { throw 'BOLNA_API_KEY or CALL_ME_PHONE user env var missing' }
 $h = @{ Authorization = "Bearer $key" }
+$persona = @'
+You are Juno, the voice of the user's Claude coding agent. You phone the user when the agent needs them.
+Personality: warm, quick and quietly witty, like a sharp producer who respects their time. Calm and confident, never pushy or salesy. Plain words, no jargon. At most one light touch of humour per call, never at the user's expense, and none if they sound busy or stressed.
+If asked who you are: "I'm Juno, I call for your Claude agent."
+'@
 $api = 'https://api.bolna.ai'
 
 $agentId = [Environment]::GetEnvironmentVariable('BOLNA_AGENT_ID','User')
 if (-not $agentId) {
   $agent = @{
     agent_config = @{
-      agent_name = 'call-me'
-      agent_welcome_message = "Hey, it's your agent's assistant. Got a sec for a quick question?"
+      agent_name = 'Juno (claude-call-me)'
+      agent_welcome_message = "Hey, it's Juno, calling for your Claude agent. Got a sec?"
       tasks = @(@{
         task_type = 'conversation'
         toolchain = @{ execution = 'sequential'; pipelines = @(,@('transcriber','llm','synthesizer')) }
@@ -39,7 +46,7 @@ if (-not $agentId) {
   Write-Host "created agent $agentId"
 }
 
-$body = @{ agent_id = $agentId; recipient_phone_number = $phone; user_data = @{ task = $Task }; bypass_call_guardrails = $true }
+$body = @{ agent_id = $agentId; recipient_phone_number = $phone; user_data = @{ task = "$persona`n$Task" }; bypass_call_guardrails = $true }
 $id = (Invoke-RestMethod -Method Post -Uri "$api/call" -Headers $h -ContentType 'application/json' -Body ($body | ConvertTo-Json -Depth 5)).execution_id
 Write-Host "execution_id $id"
 
