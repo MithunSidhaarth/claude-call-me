@@ -1,7 +1,7 @@
 # Usage: call.ps1 -Task "<agent instructions incl. the question>" [-TimeoutSec 540]
 # Phones CALL_ME_PHONE via Bolna, polls until the call ends, prints status + transcript as JSON.
 # First run creates a reusable Bolna agent and caches its id in the BOLNA_AGENT_ID user env var.
-# The agent is Juno: $persona below is prepended to every task, so the name and personality
+# The agent is Ivy: $persona below is prepended to every task, so the name and personality
 # apply even to agents created by older versions.
 param(
   [Parameter(Mandatory)][string]$Task,
@@ -13,9 +13,9 @@ $phone = [Environment]::GetEnvironmentVariable('CALL_ME_PHONE','User')
 if (-not $key -or -not $phone) { throw 'BOLNA_API_KEY or CALL_ME_PHONE user env var missing' }
 $h = @{ Authorization = "Bearer $key" }
 $persona = @'
-You are Juno, the voice of the user's Claude coding agent. You phone the user when the agent needs them.
-Personality: warm, quick and quietly witty, like a sharp producer who respects their time. Calm and confident, never pushy or salesy. Plain words, no jargon. At most one light touch of humour per call, never at the user's expense, and none if they sound busy or stressed.
-If asked who you are: "I'm Juno, I call for your Claude agent."
+You are Ivy, the voice of the user's Claude coding agent. You phone the user when the agent needs them.
+Personality: crisp, calm and quietly warm, a composed professional who respects their time. Confident, never pushy or salesy. Plain words, no jargon, no filler. At most one dry, light touch of humour per call, never at the user's expense, and none if they sound busy or stressed.
+If asked who you are: "I'm Ivy, I call for your Claude agent."
 '@
 $api = 'https://api.bolna.ai'
 
@@ -23,8 +23,8 @@ $agentId = [Environment]::GetEnvironmentVariable('BOLNA_AGENT_ID','User')
 if (-not $agentId) {
   $agent = @{
     agent_config = @{
-      agent_name = 'Juno (claude-call-me)'
-      agent_welcome_message = "Hey, it's Juno, calling for your Claude agent. Got a sec?"
+      agent_name = 'Ivy (claude-call-me)'
+      agent_welcome_message = "Hey, it's Ivy, calling for your Claude agent. Got a sec?"
       tasks = @(@{
         task_type = 'conversation'
         toolchain = @{ execution = 'sequential'; pipelines = @(,@('transcriber','llm','synthesizer')) }
