@@ -5,7 +5,7 @@ description: Phone the user through Bolna.ai when you are blocked on a decision 
 
 # Call me
 
-You are working on a task for the user. When you hit a decision only they can make, you **phone them**: a Bolna.ai voice agent asks your question, confirms their answer back, and hangs up. You read the transcript and keep working.
+You are working on a task for the user. When you hit a decision only they can make, you **phone them**: **Juno**, a Bolna.ai voice agent, asks your question, confirms their answer back, and hangs up. You read the transcript and keep working.
 
 ## Setup
 
@@ -30,10 +30,10 @@ You are working on a task for the user. When you hit a decision only they can ma
 Run with a 600000 ms tool timeout (the script polls up to 540 s). It prints `execution_id`, then JSON with `status`, `voicemail`, `error`, `transcript`.
 
 Write the task text (it becomes the voice agent's system prompt) so the question works out loud. Include:
-- Who's calling: an assistant calling on behalf of the user's AI agent, which needs one decision to keep going.
+- Why Juno is calling: the agent needs one decision to keep going. (`call.ps1` already gives the voice agent its name, Juno, and its personality; don't restate them.)
 - **The question**, short and plain, plus the options if there are any.
 - Background to share only if they ask.
-- The rules: talk fast and tight, short sentences, no small talk; ask one follow-up if the answer is vague; repeat the decision back in one sentence and confirm it; if they can't talk or say "you decide," say the agent will use its best judgment and end the call; never decide for them, promise anything, or discuss other topics; after they confirm, ask "Anything else before I let you go?" and only end once they say that's all (if they say "wait" or "hold on", stop and listen). If a call-screening assistant asks for your name and reason for calling, say only "Claude agent, one quick question" and wait for the user to pick up. If it reaches voicemail, leave a one-line version of the question and say to check the agent.
+- The rules: talk fast and tight, short sentences, no small talk; ask one follow-up if the answer is vague; repeat the decision back in one sentence and confirm it; if they can't talk or say "you decide," say the agent will use its best judgment and end the call; never decide for them, promise anything, or discuss other topics; after they confirm, ask "Anything else before I let you go?" and only end once they say that's all (if they say "wait" or "hold on", stop and listen). If a call-screening assistant asks for your name and reason for calling, say only "Juno, for your Claude agent, one quick question" and wait for the user to pick up. If it reaches voicemail, leave a one-line version of the question and say to check the agent.
 
 ## Read the answer
 
@@ -50,7 +50,7 @@ Write the task text (it becomes the voice agent's system prompt) so the question
 
 Invoking this skill in a session turns these on: a Stop hook (`stop-hook.ps1`) blocks Claude's first stop and asks for this call.
 
-1. Phone the user with `call.ps1`. The task text tells the voice agent to:
+1. Phone the user with `call.ps1`. The task text tells Juno to:
    - give a short spoken update: what got done, what failed or is left (2-3 sentences, no code or file paths read aloud);
    - offer the possible next steps as 2-4 short numbered options;
    - ask which one, plus any extra instructions;

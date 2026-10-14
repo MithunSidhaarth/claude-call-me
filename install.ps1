@@ -22,6 +22,9 @@ if (-not [Environment]::GetEnvironmentVariable('CALL_ME_PHONE','User')) {
   [Environment]::SetEnvironmentVariable('CALL_ME_PHONE', $p, 'User')
 }
 
+# Forget any cached Bolna agent so the next call creates Juno with the current greeting
+[Environment]::SetEnvironmentVariable('BOLNA_AGENT_ID', $null, 'User')
+
 # 3. Session-end hook in ~/.claude/settings.json (backup kept as settings.json.bak)
 if (-not $NoHook) {
   $settingsPath = "$HOME\.claude\settings.json"

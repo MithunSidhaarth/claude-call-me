@@ -4,7 +4,7 @@
 
 ### Walk away. Claude calls you.
 
-A Claude Code skill that **phones you** when it needs a decision, **calls with an update** every time a task ends, and runs a **daily standup call** about yesterday's work. You answer out loud; Claude gets back to work.
+A Claude Code skill that **phones you**. Meet **Juno**, the voice on the line: Juno calls when Claude needs a decision, **calls with an update** every time a task ends, and runs a **daily standup call** about yesterday's work. You answer out loud; Claude gets back to work.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-FF2E2E?style=for-the-badge)](LICENSE)
 [![Claude Code skill](https://img.shields.io/badge/Claude_Code-skill-07070A?style=for-the-badge&logo=anthropic&logoColor=white)](https://docs.claude.com/en/docs/claude-code/skills)
@@ -24,9 +24,9 @@ A Claude Code skill that **phones you** when it needs a decision, **calls with a
 Long Claude Code tasks have a failure mode: you walk away, Claude hits a question only you can answer, and it sits there waiting for an hour. **claude-call-me** turns that wait into a 60-second phone call.
 
 ```
-agent:  Postgres or SQLite for the cache?
+juno:   Postgres or SQLite for the cache?
 you:    SQLite. Keep it simple.
-agent:  SQLite, confirmed. Anything else before I let you go?
+juno:   SQLite, confirmed. Anything else before I let you go?
 you:    That's all.
 ```
 
@@ -38,12 +38,18 @@ you:    That's all.
 | ✅ **Task done** | A session where you said *"call me when done"* finishes | A spoken update, 2–4 next steps to pick from, plus any extra instructions. Claude does it **live**, then calls again until you say "that's all". |
 | ☀️ **Daily standup** | Every morning (you pick the time) | A recap of yesterday's Claude Code sessions by project, then *"What should your agent focus on today?"* Saved for Claude to read later. |
 
+## Meet Juno
+
+Juno is the voice agent that phones you: warm, quick and quietly witty, like a sharp producer who respects your time. One question, your answer read back, and off the phone. Juno never decides for you, never sells you anything, and keeps it to one joke per call (none if you sound busy). The personality lives in `$persona` in [`skill/call.ps1`](skill/call.ps1), so you can make Juno your own.
+
+Upgrading from an earlier version? Re-run `install.ps1` so Juno's greeting replaces the old one.
+
 ## How it works
 
 ```mermaid
 flowchart LR
     A[Claude Code<br/>working] -->|needs you /<br/>task ends| B[call.ps1]
-    B -->|POST /call| C[Bolna voice agent]
+    B -->|POST /call| C[Juno<br/>Bolna voice agent]
     C -->|rings| D((📱 You))
     D -->|answer out loud| C
     C -->|transcript| B
@@ -51,9 +57,9 @@ flowchart LR
     E -.->|next update| B
 ```
 
-- **`call.ps1`** creates one reusable Bolna voice agent on first run, places the call with the question as the agent's prompt, polls until the call ends, and returns the transcript.
+- **`call.ps1`** creates Juno, one reusable Bolna voice agent, on first run, places the call with the question as the agent's prompt, polls until the call ends, and returns the transcript.
 - **`stop-hook.ps1`** is a Claude Code `Stop` hook. In sessions where the skill was used, it holds Claude's first stop and asks for the update call. It never loops: one hook-triggered call per stop, and Claude keeps calling only while you keep giving it work.
-- **`standup.ps1`** reads yesterday's top-level transcripts in `~/.claude/projects`, sends a short digest to the voice agent, and saves the recap + call to `~/.claude/call-me/standups/<date>.md`. No sessions means no call.
+- **`standup.ps1`** reads yesterday's top-level transcripts in `~/.claude/projects`, sends a short digest to Juno, and saves the recap + call to `~/.claude/call-me/standups/<date>.md`. No sessions means no call.
 
 ## Install
 
